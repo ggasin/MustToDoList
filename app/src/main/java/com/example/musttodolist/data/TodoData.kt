@@ -1,5 +1,5 @@
 package com.example.musttodolist.data
 
-data class todoData(
+data class TodoData(
     var content : String = ""
 )

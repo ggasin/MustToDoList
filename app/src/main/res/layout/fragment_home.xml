@@ -86,18 +86,43 @@
 
         </TextView>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp">
+       <com.google.android.material.button.MaterialButtonToggleGroup
+           android:id="@+id/day_toggle_btn_group"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:singleSelection="true"
+           android:layout_marginTop="10dp"
+           android:layout_marginLeft="15dp"
+           app:checkedButton="@+id/today_btn"
+           >
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/today_btn"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="오늘"
+               >
 
-        </androidx.recyclerview.widget.RecyclerView>
+           </com.google.android.material.button.MaterialButton>
+           <com.google.android.material.button.MaterialButton
+               android:id="@+id/tomorrow_btn"
+               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="내일"
+               >
+
+           </com.google.android.material.button.MaterialButton>
+
+       </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
+
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/todo_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="15dp">
@@ -111,7 +136,7 @@
             android:layout_marginTop="15dp">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/todo_add_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
