@@ -121,6 +121,8 @@ class HomeFragment : Fragment() {
                 0 -> {
                     CoroutineScope(Dispatchers.IO).launch {
                         todoViewModel.todoInsert(todoDTO)
+                        //todoViewModel.insert(todo)를 통해
+                        //  viewModel -> todoRepository -> todoDao 순으로 타고 들어가 데이터베이스에 저장하게 됩니다.
                     }
                     Toast.makeText(requireContext(), "추가되었습니다.", Toast.LENGTH_SHORT).show()
                 }

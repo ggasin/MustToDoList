@@ -1,6 +1,7 @@
 package com.example.musttodolist.viewModel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.musttodolist.dao.TodoDAO
@@ -13,18 +14,25 @@ import java.util.Calendar
 import java.util.Locale
 
 class TodoViewModel:ViewModel() {
+    private val _selectedDate = MutableLiveData<String>()
+    val selectedDate: LiveData<String> = _selectedDate
     val todoList : LiveData<MutableList<TodoDTO>>
     private val todoRepository:TodoRepository = TodoRepository.get()
     val todoTomorrowList : LiveData<MutableList<TodoDTO>> = todoRepository.getTomorrowList(getTomorrowTimestamp())
 
     init {
         todoList = todoRepository.todoList(getTodayTimestamp())
+
     }
 
     fun getOneTodo(id:Long) = todoRepository.getOneTodo(id)
 
     fun todoInsert(dto: TodoDTO) = viewModelScope.launch(Dispatchers.IO){
         todoRepository.todoInsert(dto)
+    }
+
+    fun calendarTodoList(time : String):LiveData<MutableList<TodoDTO>>{
+        return todoRepository.calendarTodoList(time)
     }
 
     fun todoUpdate(dto: TodoDTO) = viewModelScope.launch(Dispatchers.IO){
@@ -47,6 +55,7 @@ class TodoViewModel:ViewModel() {
         val timestamp = dateFormat.format(calendar.time)
         return timestamp // 내일의 타임스탬프
     }
+
 
 
 

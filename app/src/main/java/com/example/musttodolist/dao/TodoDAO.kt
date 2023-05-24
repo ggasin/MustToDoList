@@ -21,6 +21,10 @@ interface TodoDAO {
     @Query("select * from todoTable where time = :time")
     fun todoList(time: String): LiveData<MutableList<TodoDTO>>
 
+    @Query("select * from todoTable where time = :time")
+    fun calendarTodoList(time: String): LiveData<MutableList<TodoDTO>>
+
+
     @Query( "select * from todoTable where id = (:id)")
     fun todoSelectOne(id:Long):TodoDTO
 

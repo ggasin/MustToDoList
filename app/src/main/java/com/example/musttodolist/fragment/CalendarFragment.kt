@@ -21,8 +21,8 @@ class CalendarFragment : Fragment() {
     lateinit var todoViewModel: TodoViewModel
     lateinit var todoAdapter: TodoRVAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
         todoAdapter = TodoRVAdapter(requireContext())
         binding.calendarRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -31,11 +31,15 @@ class CalendarFragment : Fragment() {
         binding.calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
             val formattedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth)
 
+            todoViewModel.calendarTodoList(formattedDate).observe(viewLifecycleOwner) { items ->
+                todoAdapter.update(items)
+            }
+
 
         }
 
-
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
