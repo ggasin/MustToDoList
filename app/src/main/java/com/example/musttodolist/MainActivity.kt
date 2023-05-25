@@ -30,6 +30,9 @@ class MainActivity : AppCompatActivity() {
             tab.setIcon(tabIconArray[position])
         }.attach()
 
+        //앱 접속 시 홈페이지부터 시작하도록
+        binding.mainVp.setCurrentItem(1,false)
+
 
 
 

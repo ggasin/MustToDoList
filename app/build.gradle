@@ -59,4 +59,10 @@ dependencies {
 
     //viewModel
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
+
+    // Material Calendar view
+    implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+
+
+
 }

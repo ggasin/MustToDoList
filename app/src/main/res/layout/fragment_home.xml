@@ -93,7 +93,7 @@
            app:singleSelection="true"
            android:layout_marginTop="10dp"
            android:layout_marginLeft="15dp"
-           app:checkedButton="@+id/today_btn"
+
            >
            <com.google.android.material.button.MaterialButton
                android:id="@+id/today_btn"

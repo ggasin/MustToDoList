@@ -54,19 +54,7 @@ class HomeFragment : Fragment() {
 
         todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
 
-        // toggleBtnGroup 초기 체크 상태에 따라 데이터 로드 및 todoAdapter 업데이트
-        when (binding.dayToggleBtnGroup.checkedButtonId) {
-            binding.todayBtn.id -> {
-                todoViewModel.todoList.observe(viewLifecycleOwner) { items ->
-                    todoAdapter.update(items)
-                }
-            }
-            binding.tomorrowBtn.id -> {
-                todoViewModel.todoTomorrowList.observe(viewLifecycleOwner) { items ->
-                    todoAdapter.update(items)
-                }
-            }
-        }
+
 
         binding.dayToggleBtnGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
             Log.d("zz",isChecked.toString())
@@ -74,19 +62,27 @@ class HomeFragment : Fragment() {
                 when(checkedId){
                     binding.todayBtn.id ->{
                         todoViewModel.todoList.observe(viewLifecycleOwner){
+                            for(i in it){
+                                Log.d("todoList",i.content)
+                            }
                             todoAdapter.update(it)
 
                         }
+                        Log.d("HomeFragment",checkedId.toString())
                     }
                     binding.tomorrowBtn.id ->{
                         todoViewModel.todoTomorrowList.observe(viewLifecycleOwner){
                             todoAdapter.update(it)
 
                         }
+                        Log.d("HomeFragment1",checkedId.toString())
                     }
                 }
             }
         }
+        //'오늘'이라는 버튼이 클릭되어 있도록
+        binding.dayToggleBtnGroup.check(binding.dayToggleBtnGroup.getChildAt(0).id)
+
 
         binding.todoAddBtn.setOnClickListener{
             val intent = Intent(requireContext(),TodoAddActivity::class.java).apply {

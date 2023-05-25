@@ -18,6 +18,9 @@ interface TodoDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun todoInsert(dto: TodoDTO)
 
+
+    @Query("select * from todoTable")
+    fun allOfTodoList(): LiveData<MutableList<TodoDTO>>
     @Query("select * from todoTable where time = :time")
     fun todoList(time: String): LiveData<MutableList<TodoDTO>>
 

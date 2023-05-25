@@ -19,6 +19,8 @@ class TodoRepository private  constructor(context: Context){
 
     private val todoDAO = database.todoDao()
 
+    fun allOfTodoList(): LiveData<MutableList<TodoDTO>> = todoDAO.allOfTodoList()
+
     fun todoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.todoList(time)
     fun calendarTodoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.calendarTodoList(time)
 
