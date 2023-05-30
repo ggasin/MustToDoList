@@ -26,14 +26,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_17.toString()
     }
     viewBinding {
         enabled true
+    }
+    buildFeatures {
+        viewBinding true
     }
 
 }
@@ -62,6 +66,9 @@ dependencies {
 
     // Material Calendar view
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+
+    //cardView
+    implementation 'androidx.cardview:cardview:1.0.0'
 
 
 

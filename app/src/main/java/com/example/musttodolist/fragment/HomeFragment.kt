@@ -15,6 +15,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.musttodolist.ItemDetailActivity
 import com.example.musttodolist.TodoAddActivity
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.data.TodoData
@@ -91,6 +92,23 @@ class HomeFragment : Fragment() {
             requestActivity.launch(intent)
 
         }
+
+        todoAdapter.setItemClickListener(object :TodoRVAdapter.ItemClickListener{
+            override fun onClick(view: View, position: Int, itemId: Long) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    Log.d("itemClick","true")
+                    val todo = todoViewModel.getOneTodo(itemId)
+
+                    val intent = Intent(requireContext(),ItemDetailActivity::class.java).apply {
+                        putExtra("type","EDIT")
+                        putExtra("item",todo)
+                    }
+                    requestActivity.launch(intent)
+
+                }
+            }
+
+        })
     }
 
 

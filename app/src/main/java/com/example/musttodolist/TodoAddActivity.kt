@@ -29,13 +29,13 @@ class TodoAddActivity : AppCompatActivity() {
         }
 
         var type = intent.getStringExtra("type")
+
         binding.addBtn.setOnClickListener {
-            val title = binding.titleEt.text.toString()
             val content = binding.contentEt.text.toString()
             val timeStamp =binding.setDateBtn.text.toString()
             if(type.equals("ADD")){
                 if(title.isNotEmpty() && content.isNotEmpty() && !timeStamp.equals("날짜 입력")){
-                    val todoDTO = TodoDTO(0,title,content,timeStamp)
+                    val todoDTO = TodoDTO(0,content,timeStamp)
                     val intent = Intent().apply {
                         putExtra("todoDTO",todoDTO)
                         putExtra("flag",0) //flag는 단순 구분을 위함으로 0일 경우 "추가"처리를, 1일 경우 "수정"처리를 하도록 분기를 나눌 것입니다.
@@ -51,6 +51,9 @@ class TodoAddActivity : AppCompatActivity() {
             }
 
 
+        }
+        binding.addBackBtn.setOnClickListener {
+            finish()
         }
     }
 }

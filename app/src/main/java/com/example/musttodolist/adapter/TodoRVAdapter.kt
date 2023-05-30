@@ -21,6 +21,10 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
     override fun onBindViewHolder(holder: TodoRVAdapter.ViewHolder, position: Int) {
         holder.content.text = list[position].content
 
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it,position,list[position].id)
+        }
+
     }
 
     override fun getItemCount(): Int {

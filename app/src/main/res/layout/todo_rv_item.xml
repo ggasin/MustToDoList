@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="75dp"
+    android:layout_height="70dp"
     android:gravity="center|top">
 
     <LinearLayout
-        android:layout_width="350dp"
+        android:id="@+id/itemLayout"
+        android:layout_width="370dp"
         android:layout_height="50dp"
         android:background="@drawable/todo_rv_item_background"
         android:gravity="center"
@@ -18,10 +20,37 @@
             android:id="@+id/rv_item_content_t"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLength="20"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:text="안녕하세요 저는 류승민입니다"
-            android:textSize="18dp"
+            android:textSize="14dp"
             android:textStyle="bold"></TextView>
+
+        <ImageButton
+            android:id="@+id/complete_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="?attr/actionBarItemBackground"
+            app:srcCompat="@drawable/complete_btn_icon" />
+
+        <ImageButton
+            android:id="@+id/complete_cancel_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?attr/actionBarItemBackground"
+            android:visibility="gone"
+            app:srcCompat="@drawable/cancel_btn_icon" />
+
+        <ImageButton
+            android:id="@+id/delete_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:background="?attr/actionBarItemBackground"
+            app:srcCompat="@drawable/delete_btn_icon" />
 
     </LinearLayout>
 </LinearLayout>

@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musttodolist.R
+import com.example.musttodolist.adapter.CalendarRVAdapter
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.databinding.FragmentCalendarBinding
 import com.example.musttodolist.databinding.FragmentHomeBinding
@@ -28,12 +29,12 @@ class CalendarFragment : Fragment() {
     private var _binding:FragmentCalendarBinding? = null
     private val binding get() = _binding!!
     lateinit var todoViewModel: TodoViewModel
-    lateinit var todoAdapter: TodoRVAdapter
+    lateinit var todoAdapter: CalendarRVAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
-        todoAdapter = TodoRVAdapter(requireContext())
+        todoAdapter = CalendarRVAdapter(requireContext())
         binding.calendarRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.calendarRecyclerView.adapter = todoAdapter
 
