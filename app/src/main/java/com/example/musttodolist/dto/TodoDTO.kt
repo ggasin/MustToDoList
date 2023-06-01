@@ -10,7 +10,8 @@ import java.io.Serializable
 class TodoDTO (
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id : Long = 0,
     @ColumnInfo(name = "content") var content : String,
-    @ColumnInfo(name = "time") var time : String
+    @ColumnInfo(name = "time") var time : String,
+    @ColumnInfo(name = "complete") var complete : Boolean
 
 ) : Serializable{
     //직렬화

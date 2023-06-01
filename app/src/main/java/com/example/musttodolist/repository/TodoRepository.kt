@@ -30,7 +30,9 @@ class TodoRepository private  constructor(context: Context){
     suspend fun todoUpdate(dto: TodoDTO) = todoDAO.todoUpdate(dto)
     fun todoDelete(dto: TodoDTO) = todoDAO.todoDelete(dto)
     fun getTomorrowList(time: String) : LiveData<MutableList<TodoDTO>> = todoDAO.getTomorrowList(time)
-
+    suspend fun updateCompleteStatus(id: Long, isComplete: Boolean) {
+        todoDAO.updateCompleteStatus(id, isComplete)
+    }
     companion object {
         private var INSTANCE: TodoRepository?=null
 

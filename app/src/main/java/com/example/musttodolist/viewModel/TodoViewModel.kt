@@ -43,6 +43,14 @@ class TodoViewModel:ViewModel() {
     fun todoDelete(dto: TodoDTO) = viewModelScope.launch(Dispatchers.IO){
         todoRepository.todoDelete(dto)
     }
+    fun updateCompleteStatus(id: Long, isComplete: Boolean) {
+        viewModelScope.launch {
+            todoRepository.updateCompleteStatus(id, isComplete)
+        }
+    }
+
+
+
     private fun getTodayTimestamp(): String {
         val calendar = Calendar.getInstance()
         val timestamp = SimpleDateFormat("yyyy-MM-dd").format(calendar.timeInMillis)

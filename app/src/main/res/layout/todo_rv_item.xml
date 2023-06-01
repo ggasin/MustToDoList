@@ -22,10 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_weight="1"
-            android:maxLines="1"
             android:ellipsize="end"
+            android:maxLines="1"
             android:text="안녕하세요 저는 류승민입니다"
-            android:textSize="14dp"
+            android:textSize="16dp"
             android:textStyle="bold"></TextView>
 
         <ImageButton
@@ -34,12 +34,14 @@
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
             android:background="?attr/actionBarItemBackground"
+            android:visibility="visible"
             app:srcCompat="@drawable/complete_btn_icon" />
 
         <ImageButton
             android:id="@+id/complete_cancel_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:layout_marginRight="10dp"
             android:background="?attr/actionBarItemBackground"
             android:visibility="gone"
             app:srcCompat="@drawable/cancel_btn_icon" />

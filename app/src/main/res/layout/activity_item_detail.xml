@@ -22,7 +22,7 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/add_back_btn"
+                android:id="@+id/detail_back_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="?attr/actionBarItemBackground"

@@ -45,7 +45,7 @@ class ItemDetailActivity : AppCompatActivity() {
             val content = binding.contentEt.text.toString()
             val timeStamp = binding.setDateBtn.text.toString()
             if (content.isNotEmpty()) {
-                val todoDTO = TodoDTO(todo!!.id,content, timeStamp)
+                val todoDTO = TodoDTO(todo!!.id,content, timeStamp,false)
                 val intent = Intent().apply {
                     putExtra("todoDTO", todoDTO)
                     putExtra("flag", 1)
@@ -56,6 +56,9 @@ class ItemDetailActivity : AppCompatActivity() {
                 Toast.makeText(this,"입력하지 않은 란이 있는지 확인해 주세요", Toast.LENGTH_SHORT).show()
             }
 
+        }
+        binding.detailBackBtn.setOnClickListener {
+            finish()
         }
     }
 }

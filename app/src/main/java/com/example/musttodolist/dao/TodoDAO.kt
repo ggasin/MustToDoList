@@ -39,4 +39,9 @@ interface TodoDAO {
 
     @Query("SELECT * FROM todoTable WHERE time = :time")
     fun getTomorrowList(time: String): LiveData<MutableList<TodoDTO>>
+
+    @Query("UPDATE todoTable SET complete = :isComplete WHERE id = :id")
+    suspend fun updateCompleteStatus(id: Long, isComplete: Boolean)
+
+
 }

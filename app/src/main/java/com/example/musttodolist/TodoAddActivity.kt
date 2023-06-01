@@ -35,7 +35,7 @@ class TodoAddActivity : AppCompatActivity() {
             val timeStamp =binding.setDateBtn.text.toString()
             if(type.equals("ADD")){
                 if(title.isNotEmpty() && content.isNotEmpty() && !timeStamp.equals("날짜 입력")){
-                    val todoDTO = TodoDTO(0,content,timeStamp)
+                    val todoDTO = TodoDTO(0,content,timeStamp,false)
                     val intent = Intent().apply {
                         putExtra("todoDTO",todoDTO)
                         putExtra("flag",0) //flag는 단순 구분을 위함으로 0일 경우 "추가"처리를, 1일 경우 "수정"처리를 하도록 분기를 나눌 것입니다.
