@@ -8,20 +8,24 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
 import com.example.musttodolist.dto.TodoDTO
+import com.example.musttodolist.viewModel.TodoViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 
 class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>(){
-    enum class ListType {
-        TODAY,
-        TOMORROW
-    }
 
-    private var todayList = mutableListOf<TodoDTO>()
-    private var tomorrowList = mutableListOf<TodoDTO>()
-    private var currentList: MutableList<TodoDTO> = todayList
-    private var currentListType: ListType = ListType.TODAY
+
+    private var currentList = mutableListOf<TodoDTO>()
+
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoRVAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.todo_rv_item,parent,false)
         return ViewHolder(v)
@@ -34,45 +38,51 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
         val deleteBtn = itemView.findViewById<ImageButton>(R.id.delete_btn)
         val itemLayout = itemView.findViewById<LinearLayout>(R.id.itemLayout)
 
+        fun onbind(data: TodoDTO){
+            content.text = data.content
+            if(data.complete ){
+                content.paintFlags =content.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                itemLayout.setBackgroundResource(R.drawable.todo_rv_item_complete_background)
+                completeBtn.visibility = View.GONE
+                completeCancelBtn.visibility = View.VISIBLE
+            } else {
+                content.paintFlags = content.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                itemLayout.setBackgroundResource(R.drawable.todo_rv_item_background)
+                completeBtn.visibility = View.VISIBLE
+                completeCancelBtn.visibility = View.GONE
+            }
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it,layoutPosition,currentList[layoutPosition].id)
+            }
+
+            completeBtn.setOnClickListener {
+                updateItemView(layoutPosition) // Update the view for the clicked item
+                itemCompleteBtnClickListener.onClick(it,layoutPosition,currentList[layoutPosition].id)
+            }
+            completeCancelBtn.setOnClickListener {
+                updateItemView(layoutPosition) // Update the view for the clicked item
+                itemCompleteCancelClickListener.onClick(it,layoutPosition,currentList[layoutPosition].id)
+            }
+           deleteBtn.setOnClickListener {
+
+                itemDeleteBtnClickListener.onClick(it,layoutPosition,currentList[layoutPosition].id)
+            }
+        }
+
     }
 
     override fun onBindViewHolder(holder: TodoRVAdapter.ViewHolder, position: Int) {
-        val item = todayList[position]
-        holder.content.text = item.content
-
-
-        holder.itemView.setOnClickListener {
-            itemClickListener.onClick(it,position,item.id)
-        }
-        holder.completeBtn.setOnClickListener {
-            holder.content.paintFlags =holder.content.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            holder.itemLayout.setBackgroundResource(R.drawable.todo_rv_item_complete_background)
-            holder.completeBtn.visibility = View.GONE
-            holder.completeCancelBtn.visibility = View.VISIBLE
-
-            itemCompleteBtnClickListener.onClick(it,position,item.id)
-        }
-        holder.completeCancelBtn.setOnClickListener {
-            holder.content.paintFlags = holder.content.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-            holder.itemLayout.setBackgroundResource(R.drawable.todo_rv_item_background)
-            holder.completeBtn.visibility = View.VISIBLE
-            holder.completeCancelBtn.visibility = View.GONE
-            itemCompleteCancelClickListener.onClick(it,position,item.id)
-        }
-        holder.deleteBtn.setOnClickListener {
-
-            itemDeleteBtnClickListener.onClick(it,position,item.id)
-        }
+        holder.onbind(currentList[position])
     }
 
     override fun getItemCount(): Int {
-        return todayList.size
+        return currentList.size
     }
 
 
 
     fun update(newList : MutableList<TodoDTO>){
-        this.todayList = newList
+        this.currentList = newList
         notifyDataSetChanged()
     }
 
@@ -117,32 +127,11 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
     fun setItemCompleteCancelBtnClickListener(itemCompleteCancelBtnClickListener: ItemCompleteCancelBtnClickListener){
         this.itemCompleteCancelClickListener = itemCompleteCancelBtnClickListener
     }
-
-    fun updateTodayList(newList: MutableList<TodoDTO>) {
-        todayList = newList
-        if (currentListType == ListType.TODAY) {
-            currentList = todayList
-            notifyDataSetChanged()
-        }
+    private fun updateItemView(position: Int) {
+        notifyItemChanged(position)
     }
 
-    fun updateTomorrowList(newList: MutableList<TodoDTO>) {
-        tomorrowList = newList
-        if (currentListType == ListType.TOMORROW) {
-            currentList = tomorrowList
-            notifyDataSetChanged()
-        }
-    }
 
-    fun switchToList(listType: ListType) {
-        currentListType = listType
-        currentList = if (listType == ListType.TODAY) {
-            todayList
-        } else {
-            tomorrowList
-        }
-        notifyDataSetChanged()
-    }
 
 
 

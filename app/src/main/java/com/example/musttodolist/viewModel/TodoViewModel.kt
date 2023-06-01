@@ -18,10 +18,11 @@ class TodoViewModel:ViewModel() {
     val selectedDate: LiveData<String> = _selectedDate
     val todoList : LiveData<MutableList<TodoDTO>>
     private val todoRepository:TodoRepository = TodoRepository.get()
-    val todoTomorrowList : LiveData<MutableList<TodoDTO>> = todoRepository.getTomorrowList(getTomorrowTimestamp())
+    val todoTomorrowList : LiveData<MutableList<TodoDTO>>
 
     init {
         todoList = todoRepository.todoList(getTodayTimestamp())
+        todoTomorrowList = todoRepository.getTomorrowList(getTomorrowTimestamp())
 
     }
 

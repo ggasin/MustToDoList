@@ -33,7 +33,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var todoViewModel: TodoViewModel
     lateinit var todoAdapter: TodoRVAdapter
-    private var isStrikeThrough = false
+
+
+
 
 
 
@@ -65,11 +67,14 @@ class HomeFragment : Fragment() {
                     binding.todayBtn.id ->{
                         todoViewModel.todoList.observe(viewLifecycleOwner){
                             todoAdapter.update(it)
+                            Log.d("Homefragment","todoList")
                         }
+
                     }
                     binding.tomorrowBtn.id ->{
                         todoViewModel.todoTomorrowList.observe(viewLifecycleOwner){
                             todoAdapter.update(it)
+                            Log.d("Homefragment","todoTomorrowList")
 
                         }
 
@@ -106,13 +111,12 @@ class HomeFragment : Fragment() {
         })
         todoAdapter.setItemCompleteBtnClickListener(object : TodoRVAdapter.ItemCompleteBtnClickListener{
             override fun onClick(view: View, position: Int, itemId: Long) {
-                //itemid -> room database 에 작성된 id
-                CoroutineScope(Dispatchers.IO).launch {
-                    todoViewModel.updateCompleteStatus(itemId,true)
 
-                    //todoViewModel.insert(todo)를 통해
-                    //  viewModel -> todoRepository -> todoDao 순으로 타고 들어가 데이터베이스에 저장하게 됩니다.
-                }
+                //itemid -> room database 에 작성된 id
+                
+                todoViewModel.updateCompleteStatus(itemId, true)
+
+
                 Toast.makeText(requireContext(),"완료 클릭 $itemId",Toast.LENGTH_SHORT).show()
             }
 
@@ -120,12 +124,10 @@ class HomeFragment : Fragment() {
         todoAdapter.setItemCompleteCancelBtnClickListener(object :TodoRVAdapter.ItemCompleteCancelBtnClickListener{
             override fun onClick(view: View, position: Int, itemId: Long) {
                 //itemid -> room database 에 작성된 id
-                CoroutineScope(Dispatchers.IO).launch {
-                    todoViewModel.updateCompleteStatus(itemId,false)
+                todoViewModel.updateCompleteStatus(itemId,false)
+                //todoViewModel.insert(todo)를 통해
+                //  viewModel -> todoRepository -> todoDao 순으로 타고 들어가 데이터베이스에 저장하게 됩니다.
 
-                    //todoViewModel.insert(todo)를 통해
-                    //  viewModel -> todoRepository -> todoDao 순으로 타고 들어가 데이터베이스에 저장하게 됩니다.
-                }
                 Toast.makeText(requireContext(),"취소 클릭 $itemId",Toast.LENGTH_SHORT).show()
             }
 
