@@ -28,23 +28,21 @@
             android:textSize="16dp"
             android:textStyle="bold"></TextView>
 
-        <ImageButton
-            android:id="@+id/complete_btn"
+        <ImageView
+            android:id="@+id/complete_iv"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:background="?attr/actionBarItemBackground"
-            android:visibility="visible"
-            app:srcCompat="@drawable/baseline_check_circle_24" />
-
-        <ImageButton
-            android:id="@+id/complete_cancel_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:background="?attr/actionBarItemBackground"
             android:visibility="gone"
-            app:srcCompat="@drawable/baseline_cancel_24" />
+            app:srcCompat="@drawable/baseline_check_24" />
+
+        <ImageView
+            android:id="@+id/incomplete_iv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/baseline_close_24" />
 
         <ImageButton
             android:id="@+id/delete_btn"

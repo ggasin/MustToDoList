@@ -23,6 +23,9 @@ interface TodoDAO {
     fun allOfTodoList(): LiveData<MutableList<TodoDTO>>
     @Query("select * from todoTable where time = :time")
     fun todoList(time: String): LiveData<MutableList<TodoDTO>>
+    @Query("SELECT * FROM todoTable WHERE time = :time")
+    fun getTomorrowList(time: String): LiveData<MutableList<TodoDTO>>
+
 
     @Query("select * from todoTable where time = :time")
     fun calendarTodoList(time: String): LiveData<MutableList<TodoDTO>>
@@ -37,8 +40,7 @@ interface TodoDAO {
     @Delete
     fun todoDelete(dto: TodoDTO)
 
-    @Query("SELECT * FROM todoTable WHERE time = :time")
-    fun getTomorrowList(time: String): LiveData<MutableList<TodoDTO>>
+
 
     @Query("UPDATE todoTable SET complete = :isComplete WHERE id = :id")
     suspend fun updateCompleteStatus(id: Long, isComplete: Boolean)

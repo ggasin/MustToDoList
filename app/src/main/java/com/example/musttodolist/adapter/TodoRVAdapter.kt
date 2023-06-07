@@ -2,6 +2,7 @@ package com.example.musttodolist.adapter
 
 import android.content.Context
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,11 +46,13 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
                 itemLayout.setBackgroundResource(R.drawable.todo_rv_item_complete_background)
                 completeBtn.visibility = View.GONE
                 completeCancelBtn.visibility = View.VISIBLE
+                Log.d("adapterOnbind","complete")
             } else {
                 content.paintFlags = content.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
                 itemLayout.setBackgroundResource(R.drawable.todo_rv_item_background)
                 completeBtn.visibility = View.VISIBLE
                 completeCancelBtn.visibility = View.GONE
+                Log.d("adapterOnbind","incomplete")
             }
             itemView.setOnClickListener {
                 itemClickListener.onClick(it,layoutPosition,currentList[layoutPosition].id)
@@ -83,6 +86,7 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
 
     fun update(newList : MutableList<TodoDTO>){
         this.currentList = newList
+
         notifyDataSetChanged()
     }
 
@@ -128,6 +132,7 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
         this.itemCompleteCancelClickListener = itemCompleteCancelBtnClickListener
     }
     private fun updateItemView(position: Int) {
+        Log.d("adapter","updateItemView")
         notifyItemChanged(position)
     }
 

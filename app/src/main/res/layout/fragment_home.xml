@@ -43,24 +43,58 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="20dp">
-            <TextView
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홍길동"
                 android:layout_marginLeft="15dp"
-                android:textStyle="bold"
-                android:textSize="25dp">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            </TextView>
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="홍길동"
+                    android:textSize="25dp"
+                    android:textStyle="bold"></TextView>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    app:srcCompat="@drawable/fire_icon">
+
+                </ImageView>
+
+            </LinearLayout>
+           
+
+            
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lv. 1"
+                android:orientation="horizontal"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp">
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lv. "
 
-            </TextView>
+                    android:textSize="20dp">
+
+                </TextView>
+                <TextView
+                    android:id="@+id/level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1"
+                    android:textSize="20dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -116,34 +150,41 @@
 
        </com.google.android.material.button.MaterialButtonToggleGroup>
 
-        <ScrollView
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="220dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todo_rv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp">
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="15dp"
+                >
 
             </androidx.recyclerview.widget.RecyclerView>
-        </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:layout_marginTop="15dp">
 
-            <ImageButton
-                android:id="@+id/todo_add_btn"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/add_btn_icon"
-                android:layout_marginRight="30dp"
-               />
-        </LinearLayout>
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="30dp"
+                android:gravity="end">
+
+                <ImageButton
+                    android:id="@+id/todo_add_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="30dp"
+                    android:background="?attr/actionBarItemBackground"
+                    android:src="@drawable/plus_icon" />
+            </LinearLayout>
+        </RelativeLayout>
+
 
 
 

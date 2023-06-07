@@ -20,6 +20,7 @@ class ItemDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var type = intent.getStringExtra("type")
+        Log.d("ItemDetailActivity",type.toString())
         if (type.equals("EDIT")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 todo = intent.getSerializableExtra("item",TodoDTO::class.java)!!

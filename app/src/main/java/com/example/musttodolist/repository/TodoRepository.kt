@@ -1,6 +1,7 @@
 package com.example.musttodolist.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.room.Room
 import com.example.musttodolist.dao.TodoDAO
@@ -22,6 +23,7 @@ class TodoRepository private  constructor(context: Context){
     fun allOfTodoList(): LiveData<MutableList<TodoDTO>> = todoDAO.allOfTodoList()
 
     fun todoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.todoList(time)
+    fun getTomorrowList(time: String) : LiveData<MutableList<TodoDTO>> = todoDAO.getTomorrowList(time)
     fun calendarTodoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.calendarTodoList(time)
 
 
@@ -29,7 +31,7 @@ class TodoRepository private  constructor(context: Context){
     fun todoInsert(dto:TodoDTO) = todoDAO.todoInsert(dto)
     suspend fun todoUpdate(dto: TodoDTO) = todoDAO.todoUpdate(dto)
     fun todoDelete(dto: TodoDTO) = todoDAO.todoDelete(dto)
-    fun getTomorrowList(time: String) : LiveData<MutableList<TodoDTO>> = todoDAO.getTomorrowList(time)
+
     suspend fun updateCompleteStatus(id: Long, isComplete: Boolean) {
         todoDAO.updateCompleteStatus(id, isComplete)
     }
@@ -39,6 +41,7 @@ class TodoRepository private  constructor(context: Context){
         fun initialize(context: Context) {
             if (INSTANCE == null) {
                 INSTANCE = TodoRepository(context)
+                Log.d("initialize","todo")
             }
         }
 

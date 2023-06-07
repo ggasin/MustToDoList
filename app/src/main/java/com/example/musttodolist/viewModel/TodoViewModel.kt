@@ -1,5 +1,6 @@
 package com.example.musttodolist.viewModel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,15 +15,16 @@ import java.util.Calendar
 import java.util.Locale
 
 class TodoViewModel:ViewModel() {
-    private val _selectedDate = MutableLiveData<String>()
-    val selectedDate: LiveData<String> = _selectedDate
     val todoList : LiveData<MutableList<TodoDTO>>
+    val allOfTodoList : LiveData<MutableList<TodoDTO>>
     private val todoRepository:TodoRepository = TodoRepository.get()
     val todoTomorrowList : LiveData<MutableList<TodoDTO>>
 
     init {
+        allOfTodoList = todoRepository.allOfTodoList()
         todoList = todoRepository.todoList(getTodayTimestamp())
         todoTomorrowList = todoRepository.getTomorrowList(getTomorrowTimestamp())
+        Log.d("viewModel","init")
 
     }
 
