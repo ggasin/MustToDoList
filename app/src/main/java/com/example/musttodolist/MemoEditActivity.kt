@@ -26,6 +26,7 @@ class MemoEditActivity : AppCompatActivity() {
 
         var type = intent.getStringExtra("type")
         if (type.equals("ADD")) {
+            binding.memoEditTopTitleTv.setText("메모 추가")
 
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -33,6 +34,7 @@ class MemoEditActivity : AppCompatActivity() {
             } else {
                 memo = intent.getSerializableExtra("item") as? MemoDTO
             }
+            binding.memoEditTopTitleTv.setText("메모 수정")
             binding.memoTitleEt.setText(memo!!.memoTitle)
             binding.memoContentEt.setText(memo!!.memoContent)
 

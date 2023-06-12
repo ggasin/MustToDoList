@@ -6,17 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
+import com.example.musttodolist.databinding.FragmentMemoBinding
 import com.example.musttodolist.dto.MemoDTO
-import com.example.musttodolist.dto.TodoDTO
 
 class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.ViewHolder>(){
 
 
     private var memoList = mutableListOf<MemoDTO>()
-    var isHiddenChkBox = false
+    var isHiddenChkBoxVisible = false
+    var allChkBoxChecked = false
+    var isLongClickedItem = false
+
+
 
 
 
@@ -36,18 +41,23 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
             title.text = data.memoTitle
             content.text = data.memoContent
             time.text = data.memoTime
-            chkBox.visibility = if(isHiddenChkBox) View.VISIBLE else View.GONE
+            chkBox.visibility = if(isHiddenChkBoxVisible) View.VISIBLE else View.GONE
+            chkBox.isChecked = if(allChkBoxChecked) true else false
+            Log.d("checkBoxOnBind",chkBox.isChecked.toString()+"+"+data.memoTitle)
             itemView.setOnClickListener {
                 itemClickListener.onClick(it,layoutPosition,memoList[layoutPosition].memoId)
             }
             itemView.setOnLongClickListener {
                 itemLongClickListener.onLongClick(it,layoutPosition,memoList[layoutPosition].memoId)
+                chkBox.isChecked = true
                 longClickChkBoxUpdate()
+
                 true
-
             }
-
-
+            chkBox.setOnCheckedChangeListener { compoundButton, b ->
+                Log.d("checkBoxOnAdapter",chkBox.isChecked.toString()+"+"+data.memoTitle)
+                itemCheckBoxCheckListener.onCheck(b,compoundButton,memoList[layoutPosition].memoId)
+            }
         }
 
     }
@@ -66,7 +76,19 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
         notifyDataSetChanged()
     }
     fun longClickChkBoxUpdate(){
-        isHiddenChkBox = true
+        isHiddenChkBoxVisible = true
+        notifyDataSetChanged()
+    }
+    fun ChkBoxHide(){
+        isHiddenChkBoxVisible = false
+        notifyDataSetChanged()
+    }
+    fun selectAllMemo(){
+        allChkBoxChecked = true
+        notifyDataSetChanged()
+    }
+    fun unSelectAllMemo(){
+        allChkBoxChecked = false
         notifyDataSetChanged()
     }
 
@@ -76,14 +98,22 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
     interface ItemLongClickListener{
         fun onLongClick(view:View,Position:Int,itemId: Long)
     }
+    interface ItemCheckBoxCheckListener{
+        fun onCheck(isCheck:Boolean, compoundButton: CompoundButton , itemId: Long)
+    }
     private lateinit var itemClickListener: ItemClickListener
     private lateinit var itemLongClickListener: ItemLongClickListener
+    private lateinit var itemCheckBoxCheckListener: ItemCheckBoxCheckListener
+
 
     fun setItemClickListener(itemClickListener: ItemClickListener){
         this.itemClickListener = itemClickListener
     }
     fun setItemLongClickListener(itemLongClickListener: ItemLongClickListener){
         this.itemLongClickListener = itemLongClickListener
+    }
+    fun setItemCheckBoxCheckListener(itemCheckBoxCheckListener: ItemCheckBoxCheckListener){
+        this.itemCheckBoxCheckListener = itemCheckBoxCheckListener
     }
 
 

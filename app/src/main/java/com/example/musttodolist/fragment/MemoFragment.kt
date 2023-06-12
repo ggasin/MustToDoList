@@ -2,7 +2,6 @@ package com.example.musttodolist.fragment
 
 import android.app.Activity
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,18 +9,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.musttodolist.ItemDetailActivity
 import com.example.musttodolist.MemoEditActivity
-import com.example.musttodolist.R
-import com.example.musttodolist.TodoAddActivity
 import com.example.musttodolist.adapter.MemoRVAdapter
 import com.example.musttodolist.databinding.FragmentMemoBinding
 import com.example.musttodolist.dto.MemoDTO
-import com.example.musttodolist.dto.TodoDTO
 import com.example.musttodolist.viewModel.MemoViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +29,11 @@ class MemoFragment : Fragment() {
     private val binding get() = _binding!!
     lateinit var memoRVAdapter: MemoRVAdapter
     lateinit var memoViewModel: MemoViewModel
+
+    var checkBoxCount = 0
+    var checkedItemList = mutableListOf<Long>()
+
+
 
 
 
@@ -70,12 +71,51 @@ class MemoFragment : Fragment() {
             }
 
         })
+
         memoRVAdapter.setItemLongClickListener(object :MemoRVAdapter.ItemLongClickListener{
             override fun onLongClick(view: View, Position: Int, itemId: Long) {
-
+                visibleCheckBox()
+                Log.d("MemoFragment",itemId.toString())
             }
 
         })
+        binding.memoAllCheckBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if(isChecked){
+                memoRVAdapter.selectAllMemo()
+            } else {
+                Log.d("allCheckNotBox","call")
+                if(checkBoxCount == memoRVAdapter.itemCount){
+                    memoRVAdapter.unSelectAllMemo()
+                }
+            }
+        }
+
+        memoRVAdapter.setItemCheckBoxCheckListener(object :MemoRVAdapter.ItemCheckBoxCheckListener{
+            override fun onCheck(isCheck: Boolean, compoundButton: CompoundButton,itemId : Long) {
+                if(isCheck){
+                    checkBoxCount+=1
+                    checkedItemList.add(itemId)
+                    if(checkBoxCount == memoRVAdapter.itemCount){
+                        binding.memoAllCheckBox.isChecked = true
+                    }
+
+                } else {
+                    checkBoxCount-=1
+                    checkedItemList.remove(itemId)
+                    if(binding.memoAllCheckBox.isChecked){
+                        binding.memoAllCheckBox.isChecked = false
+                    }
+                }
+                Log.d("checkBox",isCheck.toString()+itemId.toString())
+                Log.d("checkBoxList",checkedItemList.toString())
+                Log.d("checkBoxCount",checkBoxCount.toString())
+            }
+
+        })
+        binding.memoDeleteBtn.setOnClickListener {
+
+        }
+
 
 
 
@@ -93,7 +133,18 @@ class MemoFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
+
+    override fun onPause() {
+        Log.d("MemoFragment","pause")
+        memoRVAdapter.ChkBoxHide()
+        memoRVAdapter.unSelectAllMemo()
+        goneCheckBox()
+        super.onPause()
+    }
+
+
     private val requestActivity = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
         if (it.resultCode == Activity.RESULT_OK) {
             val memoDTO : MemoDTO
@@ -120,6 +171,14 @@ class MemoFragment : Fragment() {
                 }
             }
         }
+    }
+    private fun visibleCheckBox(){
+        binding.memoCheckBoxLy.visibility = View.VISIBLE
+        binding.memoDeleteBtn.visibility = View.VISIBLE
+    }
+    private fun goneCheckBox(){
+        binding.memoCheckBoxLy.visibility = View.GONE
+        binding.memoDeleteBtn.visibility = View.GONE
     }
 
 
