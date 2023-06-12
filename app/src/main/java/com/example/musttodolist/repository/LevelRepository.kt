@@ -22,7 +22,7 @@ class LevelRepository private  constructor(context: Context){
         context.applicationContext,
         TodoDatabase::class.java,
         DATABASE_NAME
-    ).addCallback(object : RoomDatabase.Callback(){
+    ).addCallback(object : RoomDatabase.Callback(){ //처음 데이터베이스가 생설 될 떄 초기값을 넣어두는 것.
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             Executors.newSingleThreadExecutor().execute {

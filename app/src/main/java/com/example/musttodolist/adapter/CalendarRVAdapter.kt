@@ -32,11 +32,11 @@ class CalendarRVAdapter (val context: Context) : RecyclerView.Adapter<CalendarRV
     }
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val content = itemView.findViewById<TextView>(R.id.rv_item_content_t)
+        val content = itemView.findViewById<TextView>(R.id.todo_item_content_tv)
         val completeIv = itemView.findViewById<ImageView>(R.id.complete_iv) //완료 했다는 표시
         val incompleteIv= itemView.findViewById<ImageView>(R.id.incomplete_iv) //완료를 아직 하지 않았다는 표시
-        val deleteBtn = itemView.findViewById<ImageButton>(R.id.delete_btn)
-        val itemLayout = itemView.findViewById<LinearLayout>(R.id.itemLayout)
+        val deleteBtn = itemView.findViewById<ImageButton>(R.id.todo_item_delete_btn)
+        val itemLayout = itemView.findViewById<LinearLayout>(R.id.todoItemLayout)
 
         fun onbind(data: TodoDTO){
             content.text = data.content

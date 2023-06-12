@@ -34,7 +34,7 @@ class TodoAddActivity : AppCompatActivity() {
             val content = binding.contentEt.text.toString()
             val timeStamp =binding.setDateBtn.text.toString()
             if(type.equals("ADD")){
-                if(title.isNotEmpty() && content.isNotEmpty() && !timeStamp.equals("날짜 입력")){
+                if( content.isNotEmpty() && !timeStamp.equals("날짜 입력")){
                     val todoDTO = TodoDTO(0,content,timeStamp,false)
                     val intent = Intent().apply {
                         putExtra("todoDTO",todoDTO)

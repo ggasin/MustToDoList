@@ -9,16 +9,9 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
 import com.example.musttodolist.dto.TodoDTO
-import com.example.musttodolist.viewModel.TodoViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 
 class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>(){
 
@@ -33,11 +26,11 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
 
     }
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
-        val content = itemView.findViewById<TextView>(R.id.rv_item_content_t)
-        val completeBtn = itemView.findViewById<ImageButton>(R.id.complete_btn)
+        val content = itemView.findViewById<TextView>(R.id.todo_item_content_tv)
+        val completeBtn = itemView.findViewById<ImageButton>(R.id.todo_item_complete_btn)
         val completeCancelBtn = itemView.findViewById<ImageButton>(R.id.complete_cancel_btn)
-        val deleteBtn = itemView.findViewById<ImageButton>(R.id.delete_btn)
-        val itemLayout = itemView.findViewById<LinearLayout>(R.id.itemLayout)
+        val deleteBtn = itemView.findViewById<ImageButton>(R.id.todo_item_delete_btn)
+        val itemLayout = itemView.findViewById<LinearLayout>(R.id.todoItemLayout)
 
         fun onbind(data: TodoDTO){
             content.text = data.content
@@ -81,9 +74,6 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
     override fun getItemCount(): Int {
         return currentList.size
     }
-
-
-
     fun update(newList : MutableList<TodoDTO>){
         this.currentList = newList
 

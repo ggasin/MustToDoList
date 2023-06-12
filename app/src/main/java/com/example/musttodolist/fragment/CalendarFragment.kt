@@ -15,11 +15,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musttodolist.ItemDetailActivity
-import com.example.musttodolist.R
 import com.example.musttodolist.adapter.CalendarRVAdapter
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.databinding.FragmentCalendarBinding
-import com.example.musttodolist.databinding.FragmentHomeBinding
 import com.example.musttodolist.decorator.DotCalendar
 import com.example.musttodolist.decorator.SaturdayCalendar
 import com.example.musttodolist.decorator.SundayCalendar

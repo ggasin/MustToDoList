@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginRight="15dp"
     android:background="@color/white"
     tools:context=".fragment.HomeFragment">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:gravity="center">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="잉여탈출"
                 android:textSize="25dp"
-                android:textStyle="bold"
-                >
+                android:textStyle="bold">
 
             </TextView>
         </LinearLayout>
@@ -30,19 +33,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:background="?attr/actionBarItemBackground"
-                android:src="@drawable/menu_icon"
-                android:layout_marginLeft="20dp"/>
+                android:src="@drawable/menu_icon" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,15 +72,15 @@
                 </ImageView>
 
             </LinearLayout>
-           
 
-            
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -84,13 +89,13 @@
                     android:textSize="20dp">
 
                 </TextView>
+
                 <TextView
                     android:id="@+id/level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
-                    android:textSize="20dp"
-                    >
+                    android:textSize="20dp">
 
                 </TextView>
             </LinearLayout>
@@ -100,56 +105,79 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp">
+
                 <ProgressBar
                     android:id="@+id/progressBar"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="350dp"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
 
         </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="할 일 목록"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="20dp"
+            android:text="할 일 목록"
+            android:textSize="20dp"
+            android:textStyle="bold">
 
         </TextView>
 
-       <com.google.android.material.button.MaterialButtonToggleGroup
-           android:id="@+id/day_toggle_btn_group"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           app:singleSelection="true"
-           android:layout_marginTop="10dp"
-           android:layout_marginLeft="15dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-           >
-           <com.google.android.material.button.MaterialButton
-               android:id="@+id/today_btn"
-               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="오늘"
-               >
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/day_toggle_btn_group"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                app:singleSelection="true"
 
-           </com.google.android.material.button.MaterialButton>
-           <com.google.android.material.button.MaterialButton
-               android:id="@+id/tomorrow_btn"
-               style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="내일"
-               >
+                >
 
-           </com.google.android.material.button.MaterialButton>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/today_btn"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="오늘">
 
-       </com.google.android.material.button.MaterialButtonToggleGroup>
+                </com.google.android.material.button.MaterialButton>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/tomorrow_btn"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내일">
+
+                </com.google.android.material.button.MaterialButton>
+
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/todo_add_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="?attr/actionBarItemBackground"
+                android:src="@drawable/add_icon" />
+
+        </LinearLayout>
 
 
         <RelativeLayout
@@ -163,35 +191,14 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                >
+                android:layout_marginTop="15dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="30dp"
-                android:gravity="end">
-
-                <ImageButton
-                    android:id="@+id/todo_add_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="30dp"
-                    android:background="?attr/actionBarItemBackground"
-                    android:src="@drawable/plus_icon" />
-            </LinearLayout>
         </RelativeLayout>
 
 
-
-
-
     </LinearLayout>
-
-
 
 
 </FrameLayout>

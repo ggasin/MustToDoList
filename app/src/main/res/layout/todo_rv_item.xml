@@ -7,9 +7,11 @@
     android:gravity="center|top">
 
     <LinearLayout
-        android:id="@+id/itemLayout"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
+        android:id="@+id/todoItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@drawable/todo_rv_item_background"
         android:gravity="center"
         android:orientation="horizontal"
@@ -17,7 +19,7 @@
         tools:layout_editor_absoluteY="1dp">
 
         <TextView
-            android:id="@+id/rv_item_content_t"
+            android:id="@+id/todo_item_content_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -29,7 +31,7 @@
             android:textStyle="bold"></TextView>
 
         <ImageButton
-            android:id="@+id/complete_btn"
+            android:id="@+id/todo_item_complete_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"
@@ -47,7 +49,7 @@
             app:srcCompat="@drawable/baseline_cancel_24" />
 
         <ImageButton
-            android:id="@+id/delete_btn"
+            android:id="@+id/todo_item_delete_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"

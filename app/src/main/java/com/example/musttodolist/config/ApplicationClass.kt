@@ -2,6 +2,7 @@ package com.example.musttodolist.config
 
 import android.app.Application
 import com.example.musttodolist.repository.LevelRepository
+import com.example.musttodolist.repository.MemoRepository
 import com.example.musttodolist.repository.TodoRepository
 
 class ApplicationClass : Application(){
@@ -9,5 +10,6 @@ class ApplicationClass : Application(){
         super.onCreate()
         TodoRepository.initialize(this)
         LevelRepository.initialize(this)
+        MemoRepository.initialize(this)
     }
 }

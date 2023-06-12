@@ -2,7 +2,6 @@ package com.example.musttodolist.fragment
 
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
@@ -15,11 +14,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musttodolist.ItemDetailActivity
-import com.example.musttodolist.LevelManager
 import com.example.musttodolist.TodoAddActivity
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.databinding.FragmentHomeBinding
@@ -30,7 +27,6 @@ import com.example.musttodolist.viewModel.LevelViewModel
 import com.example.musttodolist.viewModel.TodoViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
@@ -44,9 +40,8 @@ class HomeFragment : Fragment() {
     lateinit var todoViewModel: TodoViewModel
     lateinit var levelViewModel: LevelViewModel
     lateinit var todoAdapter: TodoRVAdapter
-    lateinit var todoRepository: TodoRepository
     lateinit var currentTime:String
-    lateinit var levelManager: LevelManager
+
     var isTodayUpdate:Boolean = true
 
 
@@ -70,7 +65,7 @@ class HomeFragment : Fragment() {
         todoAdapter = TodoRVAdapter(requireContext())
         binding.todoRv.layoutManager = LinearLayoutManager(requireContext())
         binding.todoRv.adapter = todoAdapter
-        levelManager = LevelManager()
+
 
         todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
         levelViewModel = ViewModelProvider(this).get(LevelViewModel::class.java)
