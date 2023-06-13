@@ -10,7 +10,6 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
-import com.example.musttodolist.databinding.FragmentMemoBinding
 import com.example.musttodolist.dto.MemoDTO
 
 class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.ViewHolder>(){
@@ -19,7 +18,8 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
     private var memoList = mutableListOf<MemoDTO>()
     var isHiddenChkBoxVisible = false
     var allChkBoxChecked = false
-    var isLongClickedItem = false
+    var longClickedItemId:Long? = null
+    var firstLongClick = true
 
 
 
@@ -41,21 +41,44 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
             title.text = data.memoTitle
             content.text = data.memoContent
             time.text = data.memoTime
+
+            //isHiddenChkBoxVisible은  longClickChkBoxUpdate()에서 값이 바뀌고 true가 되면 숨겨져 있던 checkbox layout이 보여진다.
+            //아이템을 long click할 시 아이템의 체크박스가 보이는 걸 구현 한 것.
             chkBox.visibility = if(isHiddenChkBoxVisible) View.VISIBLE else View.GONE
+
+            //전체 선택이 체크되어 allChkBoxChecked가 true 면 바인딩 되는 chkBox들을 하나씩 true로, 아니라면 false로.
+            //allChkBoxChecked의 값을 바꾸는 selectAllMemo()와 unSelectAllMemo() 메소드는 MemoFragment에서
+            //전체 선택 checkBox의 check 이벤트가 발생할 때 호출.
             chkBox.isChecked = if(allChkBoxChecked) true else false
-            Log.d("checkBoxOnBind",chkBox.isChecked.toString()+"+"+data.memoTitle)
+
+
+            //long click시 long click을 한 아이템의 checkBox는 check가 되어있는 상태로 만들고
+            //해당하는 아이템의 checkBox가 체크되고, 첫 long click 시에만 호출되도록 if조건문 구성.
+            if (longClickedItemId == memoList[layoutPosition].memoId && firstLongClick){
+                chkBox.isChecked = true
+                firstLongClick = false
+                longClickedItemId = null
+
+            }
+
+            //아이템 클릭 이벤트
             itemView.setOnClickListener {
                 itemClickListener.onClick(it,layoutPosition,memoList[layoutPosition].memoId)
             }
-            itemView.setOnLongClickListener {
-                itemLongClickListener.onLongClick(it,layoutPosition,memoList[layoutPosition].memoId)
-                chkBox.isChecked = true
-                longClickChkBoxUpdate()
 
+            //아이템 long click 이벤트
+            itemView.setOnLongClickListener {
+                //첫 long click일 때에만 long click의 작업을 수행하도록.
+                //첫 long click 이후엔 long click을 사용할 일도 없을 뿐더러, 풀어두면 에러 발생.
+                if(firstLongClick){
+                    itemLongClickListener.onLongClick(it,layoutPosition,memoList[layoutPosition].memoId)
+                    longClickedItemId = memoList[layoutPosition].memoId //long click을 한 item의 id를 저장
+                    longClickChkBoxUpdate()
+                }
                 true
             }
+
             chkBox.setOnCheckedChangeListener { compoundButton, b ->
-                Log.d("checkBoxOnAdapter",chkBox.isChecked.toString()+"+"+data.memoTitle)
                 itemCheckBoxCheckListener.onCheck(b,compoundButton,memoList[layoutPosition].memoId)
             }
         }
@@ -75,6 +98,8 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
         this.memoList = newList
         notifyDataSetChanged()
     }
+
+    //long click시 isHiddenChkBoxVisible의 값을 true로 바꾸고 adapter 업데이트
     fun longClickChkBoxUpdate(){
         isHiddenChkBoxVisible = true
         notifyDataSetChanged()

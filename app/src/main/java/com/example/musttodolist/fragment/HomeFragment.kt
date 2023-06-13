@@ -12,11 +12,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musttodolist.ItemDetailActivity
+import com.example.musttodolist.R
 import com.example.musttodolist.TodoAddActivity
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.databinding.FragmentHomeBinding
@@ -25,6 +29,7 @@ import com.example.musttodolist.dto.TodoDTO
 import com.example.musttodolist.repository.TodoRepository
 import com.example.musttodolist.viewModel.LevelViewModel
 import com.example.musttodolist.viewModel.TodoViewModel
+import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,7 +38,17 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 
 
-class HomeFragment : Fragment() {
+/* 남은 할일
+* 1. 지난 할일 목록 보여주기
+* 2. 랜덤으로 일정 추가하기
+* 3. 일정 레벨일 시 별명
+* 4. 토글버튼 색, 바텀 네비게이션 색
+* 5. 레벨업 게이지 커스텀
+* 6. 알림 구현
+* */
+
+
+class HomeFragment : Fragment(){
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -42,7 +57,11 @@ class HomeFragment : Fragment() {
     lateinit var todoAdapter: TodoRVAdapter
     lateinit var currentTime:String
 
+
+
+
     var isTodayUpdate:Boolean = true
+
 
 
 
@@ -62,54 +81,64 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //todoList 어뎁터 설정
         todoAdapter = TodoRVAdapter(requireContext())
         binding.todoRv.layoutManager = LinearLayoutManager(requireContext())
         binding.todoRv.adapter = todoAdapter
 
-
+        //viewModel 설정
         todoViewModel = ViewModelProvider(this).get(TodoViewModel::class.java)
         levelViewModel = ViewModelProvider(this).get(LevelViewModel::class.java)
+
+        //현재시간 구하기
         val calendar = Calendar.getInstance()
         currentTime = SimpleDateFormat("yyyy-MM-dd").format(calendar.timeInMillis)
 
-        levelViewModel.levelList.observe(viewLifecycleOwner){
-            if(it == null){
-                Log.d("HomeFragmentLevelList","null")
 
-            } else {
-                updateLevelInfo(it)
+        //햄버거 메뉴 클릭
+        binding.homeSideMenuBtn.setOnClickListener {
+            //drawerLayout 왼쪽부터 열기
+            binding.drawerLayout.openDrawer(GravityCompat.START)
+        }
+        //drawerLayout 내의 아이템 클릭 이벤트
+        binding.navView.setNavigationItemSelectedListener{
+            when(it.itemId){
+                R.id.past_todo_list ->{
+                    Toast.makeText(requireContext(),"클릭",Toast.LENGTH_SHORT).show()
+                    true
+                }
+                else -> false
             }
+        }
 
 
+        //레벨 정보를 저장하는 viewModel 관찰
+        levelViewModel.levelList.observe(viewLifecycleOwner){
+            if(it == null) Log.d("HomeFragmentLevelList","null") else updateLevelInfo(it)
         }
 
 
 
+        //오늘 내일 togglebtn group 클릭 이벤트 구현
         binding.dayToggleBtnGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
             Log.d("zz",isChecked.toString())
             if(isChecked){
                 when(checkedId){
                     binding.todayBtn.id ->{
                         isTodayUpdate = true
-                        Log.d("Homefragment","todoBtn")
                         todoViewModel.todoList.observe(viewLifecycleOwner){
                             if(isTodayUpdate){
                                 todoAdapter.update(it)
-                                Log.d("Homefragment","todoList")
                             }
                         }
-
                     }
                     binding.tomorrowBtn.id ->{
                         isTodayUpdate = false
-                        Log.d("Homefragment","todoTomorrowBtn")
                         todoViewModel.todoTomorrowList.observe(viewLifecycleOwner){
                             if(!isTodayUpdate){
                                 todoAdapter.update(it)
-                                Log.d("Homefragment","todoTomorrowList")
                             }
-
-
                         }
 
                     }
@@ -120,13 +149,11 @@ class HomeFragment : Fragment() {
         binding.dayToggleBtnGroup.check(binding.dayToggleBtnGroup.getChildAt(0).id)
 
 
-
         binding.todoAddBtn.setOnClickListener{
             val intent = Intent(requireContext(),TodoAddActivity::class.java).apply {
                 putExtra("type","ADD")
             }
             requestActivity.launch(intent)
-
         }
 
         todoAdapter.setItemClickListener(object :TodoRVAdapter.ItemClickListener{
@@ -240,6 +267,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+    //레벨업 구현
     private fun updateDBlevelUp(currentLevel : Int, upGaugeSize : Int, currentGauge : Int, max : Int) {
         if (currentGauge+upGaugeSize >= max) {
             val levelDTO = LevelDTO(0,currentLevel+1,upGaugeSize,0,max+20)
@@ -249,6 +277,7 @@ class HomeFragment : Fragment() {
             levelViewModel.levelUpdate(levelDTO)
         }
     }
+    //레벨다운 구현
     private fun updateDBlevelDown(currentLevel : Int, downGaugeSize : Int, currentGauge : Int, max : Int) {
         if (currentGauge-downGaugeSize < 0) {
             val levelDTO = LevelDTO(0,currentLevel-1,downGaugeSize,max-20+currentGauge-downGaugeSize,max-20)
@@ -260,13 +289,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun updateLevelInfo(dto : LevelDTO){
-
-            binding.level.text = dto.level.toString()
-            binding.progressBar.progress = dto.currentGauge
-            binding.progressBar.max = dto.max
-
-
-
+        binding.level.text = dto.level.toString()
+        binding.progressBar.progress = dto.currentGauge
+        binding.progressBar.max = dto.max
     }
 
 }
