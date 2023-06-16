@@ -23,6 +23,8 @@ class TodoRepository private  constructor(context: Context){
     fun allOfTodoList(): LiveData<MutableList<TodoDTO>> = todoDAO.allOfTodoList()
 
     fun todoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.todoList(time)
+
+
     fun getTomorrowList(time: String) : LiveData<MutableList<TodoDTO>> = todoDAO.getTomorrowList(time)
     fun calendarTodoList(time: String): LiveData<MutableList<TodoDTO>> = todoDAO.calendarTodoList(time)
 
@@ -32,6 +34,8 @@ class TodoRepository private  constructor(context: Context){
     suspend fun todoUpdate(dto: TodoDTO) = todoDAO.todoUpdate(dto)
     fun todoDelete(dto: TodoDTO) = todoDAO.todoDelete(dto)
 
+    fun getTime() = todoDAO.getTimeList()
+    fun doneTodoList() = todoDAO.doneTodoList()
     suspend fun updateCompleteStatus(id: Long, isComplete: Boolean) {
         todoDAO.updateCompleteStatus(id, isComplete)
     }

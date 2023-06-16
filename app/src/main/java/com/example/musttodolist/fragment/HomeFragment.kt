@@ -19,6 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.musttodolist.DoneTodoListActivity
 import com.example.musttodolist.ItemDetailActivity
 import com.example.musttodolist.R
 import com.example.musttodolist.TodoAddActivity
@@ -39,7 +40,7 @@ import java.util.Calendar
 
 
 /* 남은 할일
-* 1. 지난 할일 목록 보여주기
+* 1. 지난 할일 목록 보여주기 - 완. Recyclerview 안에 header 넣기. 아이템 클릭 이벤트는 없고, 삭제만 구현하기.
 * 2. 랜덤으로 일정 추가하기
 * 3. 일정 레벨일 시 별명
 * 4. 토글버튼 색, 바텀 네비게이션 색
@@ -105,7 +106,9 @@ class HomeFragment : Fragment(){
         binding.navView.setNavigationItemSelectedListener{
             when(it.itemId){
                 R.id.past_todo_list ->{
-                    Toast.makeText(requireContext(),"클릭",Toast.LENGTH_SHORT).show()
+
+                    val intent = Intent(requireContext(),DoneTodoListActivity::class.java)
+                    startActivity(intent)
                     true
                 }
                 else -> false

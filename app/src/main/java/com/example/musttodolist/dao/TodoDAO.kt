@@ -23,6 +23,11 @@ interface TodoDAO {
     fun allOfTodoList(): LiveData<MutableList<TodoDTO>>
     @Query("select * from todoTable where time = :time")
     fun todoList(time: String): LiveData<MutableList<TodoDTO>>
+    @Query("select * from todoTable where time < DATE('now')")
+    fun doneTodoList(): LiveData<MutableList<TodoDTO>>
+
+    @Query("select DISTINCT time from todoTable where time < DATE('now')")
+    fun getTimeList(): LiveData<MutableList<String>>
     @Query("SELECT * FROM todoTable WHERE time = :time")
     fun getTomorrowList(time: String): LiveData<MutableList<TodoDTO>>
 

@@ -19,11 +19,15 @@ class TodoViewModel:ViewModel() {
     val allOfTodoList : LiveData<MutableList<TodoDTO>>
     private val todoRepository:TodoRepository = TodoRepository.get()
     val todoTomorrowList : LiveData<MutableList<TodoDTO>>
+    val timeList : LiveData<MutableList<String>>
+    val doneTodoList : LiveData<MutableList<TodoDTO>>
 
     init {
         allOfTodoList = todoRepository.allOfTodoList()
         todoList = todoRepository.todoList(getTodayTimestamp())
         todoTomorrowList = todoRepository.getTomorrowList(getTomorrowTimestamp())
+        timeList = todoRepository.getTime()
+        doneTodoList = todoRepository.doneTodoList()
         Log.d("viewModel","init")
 
     }
