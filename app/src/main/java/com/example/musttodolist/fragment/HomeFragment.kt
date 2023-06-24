@@ -40,12 +40,14 @@ import java.util.Calendar
 
 
 /* 남은 할일
-* 1. 지난 할일 목록 보여주기 - 완. Recyclerview 안에 header 넣기. 아이템 클릭 이벤트는 없고, 삭제만 구현하기.
-* 2. 랜덤으로 일정 추가하기
+* 1. 지난 할일 목록 보여주기 - 완. Recyclerview 안에 header 넣기. 아이템 클릭 이벤트는 없고, 삭제만 구현하기. - 완.
+* 2. 랜덤으로 일정 추가하기 - 완. ( 근데 랜덤 할일 개수가 너무 부족)
 * 3. 일정 레벨일 시 별명
-* 4. 토글버튼 색, 바텀 네비게이션 색
-* 5. 레벨업 게이지 커스텀
+* 4. 토글버튼 색, 바텀 네비게이션 색 - 완
+* 5. 레벨업 게이지 커스텀 -완
 * 6. 알림 구현
+* 7. 캘린더의 아이템 삭제 - 완
+* 8. 비어있는 recyclerview면 "-이 비어있습니다" 이런식으로 화면 띄우기. -완
 * */
 
 
@@ -57,17 +59,8 @@ class HomeFragment : Fragment(){
     lateinit var levelViewModel: LevelViewModel
     lateinit var todoAdapter: TodoRVAdapter
     lateinit var currentTime:String
-
-
-
-
+    private lateinit var drawerLayout: DrawerLayout
     var isTodayUpdate:Boolean = true
-
-
-
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -82,6 +75,8 @@ class HomeFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        drawerLayout = requireActivity().findViewById(R.id.drawer_layout)
 
         //todoList 어뎁터 설정
         todoAdapter = TodoRVAdapter(requireContext())
@@ -100,20 +95,9 @@ class HomeFragment : Fragment(){
         //햄버거 메뉴 클릭
         binding.homeSideMenuBtn.setOnClickListener {
             //drawerLayout 왼쪽부터 열기
-            binding.drawerLayout.openDrawer(GravityCompat.START)
+            drawerLayout.openDrawer(GravityCompat.START)
         }
-        //drawerLayout 내의 아이템 클릭 이벤트
-        binding.navView.setNavigationItemSelectedListener{
-            when(it.itemId){
-                R.id.past_todo_list ->{
 
-                    val intent = Intent(requireContext(),DoneTodoListActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
-        }
 
 
         //레벨 정보를 저장하는 viewModel 관찰

@@ -11,4 +11,10 @@
 
 
     </style>
+    <style name="CustomButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="colorPrimary">@color/skyBlue</item>
+    </style>
+    <style name="TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="colorPrimary">@color/skyBlue</item>
+    </style>
 </resources>

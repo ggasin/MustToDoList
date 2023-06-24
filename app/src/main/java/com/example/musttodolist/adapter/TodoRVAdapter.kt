@@ -13,16 +13,37 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
 import com.example.musttodolist.dto.TodoDTO
 
-class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.ViewHolder>(){
+class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
-
+    private val VIEW_TYPE_ITEM = 1
+    private val VIEW_TYPE_EMPTY = 2
     private var currentList = mutableListOf<TodoDTO>()
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoRVAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.todo_rv_item,parent,false)
-        return ViewHolder(v)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            VIEW_TYPE_ITEM -> {
+                val itemView = v.inflate(R.layout.todo_rv_item, parent, false)
+                ViewHolder(itemView)
+            }
+            VIEW_TYPE_EMPTY ->{
+                val emptyView = v.inflate(R.layout.todo_empty, parent, false)
+                EmptyViewHolder(emptyView)
+            } else ->{
+                throw ClassCastException("Unknown viewType in TodoAd $viewType")
+            }
+        }
+    }
+    override fun getItemViewType(position: Int): Int {
+        return if (currentList.size != 0) {
+            VIEW_TYPE_ITEM
+        } else {
+            VIEW_TYPE_EMPTY
+        }
+    }
+    inner class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     }
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
@@ -32,7 +53,7 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
         val deleteBtn = itemView.findViewById<ImageButton>(R.id.todo_item_delete_btn)
         val itemLayout = itemView.findViewById<LinearLayout>(R.id.todoItemLayout)
 
-        fun onbind(data: TodoDTO){
+        fun onBind(data: TodoDTO){
             content.text = data.content
             if(data.complete ){
                 content.paintFlags =content.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
@@ -67,12 +88,18 @@ class TodoRVAdapter (val context: Context) : RecyclerView.Adapter<TodoRVAdapter.
 
     }
 
-    override fun onBindViewHolder(holder: TodoRVAdapter.ViewHolder, position: Int) {
-        holder.onbind(currentList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            // ITEM
+            is ViewHolder -> {
+                holder.onBind(currentList[position])
+            }
+            is EmptyViewHolder -> {}
+        }
     }
 
     override fun getItemCount(): Int {
-        return currentList.size
+        return if (currentList.size == 0) 1 else currentList.size
     }
     fun update(newList : MutableList<TodoDTO>){
         this.currentList = newList

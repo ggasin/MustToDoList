@@ -41,13 +41,27 @@ class MemoFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        memoRVAdapter = MemoRVAdapter(requireContext())
-        binding.memoRv.layoutManager = GridLayoutManager(requireContext(),3)
-        binding.memoRv.adapter = memoRVAdapter
 
+        memoRVAdapter = MemoRVAdapter(requireContext())
+        binding.memoRv.adapter = memoRVAdapter
+        val layoutManager = GridLayoutManager(requireContext(), 3)
+        //memoList에 값이 있나 없냐에 따라 셀의 크기를 정의
+        layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                Log.d("getSpanSize",position.toString())
+                return if (memoViewModel.memoList.value?.isEmpty() == true) {
+                    layoutManager.spanCount // 빈 아이템일 경우 전체 너비로 확장
+
+                } else {
+                    1 // 일반 아이템일 경우 한 셀만 차지
+                }
+            }
+        }
+        binding.memoRv.layoutManager = layoutManager
         memoViewModel = ViewModelProvider(this).get(MemoViewModel::class.java)
 
         memoViewModel.memoList.observe(viewLifecycleOwner){
+
             memoRVAdapter.update(it)
         }
 
@@ -221,6 +235,7 @@ class MemoFragment : Fragment() {
         Log.d("MemoFragmentFirstLongClick",memoRVAdapter.firstLongClick.toString())
 
     }
+
 
 
 

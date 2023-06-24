@@ -12,9 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.musttodolist.R
 import com.example.musttodolist.dto.MemoDTO
 
-class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.ViewHolder>(){
+class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
 
+    private val VIEW_TYPE_ITEM = 1
+    private val VIEW_TYPE_EMPTY = 2
     private var memoList = mutableListOf<MemoDTO>()
     var isHiddenChkBoxVisible = false
     var allChkBoxChecked = false
@@ -25,11 +27,30 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoRVAdapter.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.memo_rv_item,parent,false)
-        return ViewHolder(v)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val v = LayoutInflater.from(parent.context)
+        return when(viewType){
+            VIEW_TYPE_ITEM -> {
+                val itemView = v.inflate(R.layout.memo_rv_item,parent,false)
+                ViewHolder(itemView)
+            }
+            VIEW_TYPE_EMPTY ->{
+                val itemView = v.inflate(R.layout.memo_empty,parent,false)
+                EmptyHolder(itemView)
+
+            } else -> throw ClassCastException("Unknown viewType in MemoAd $viewType")
+        }
 
     }
+
+    override fun getItemViewType(position: Int): Int {
+        return if(memoList.size!=0){
+            VIEW_TYPE_ITEM
+        } else {
+            VIEW_TYPE_EMPTY
+        }
+    }
+    inner class EmptyHolder(itemView : View) : RecyclerView.ViewHolder(itemView){}
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView){
         val title = itemView.findViewById<TextView>(R.id.memo_title_tv)
         val content = itemView.findViewById<TextView>(R.id.memo_content_tv)
@@ -37,7 +58,7 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
         val chkBox = itemView.findViewById<CheckBox>(R.id.memo_check_box)
 
 
-        fun onbind(data: MemoDTO){
+        fun onBind(data: MemoDTO){
             title.text = data.memoTitle
             content.text = data.memoContent
             time.text = data.memoTime
@@ -85,13 +106,19 @@ class MemoRVAdapter (val context: Context) : RecyclerView.Adapter<MemoRVAdapter.
 
     }
 
-    override fun onBindViewHolder(holder: MemoRVAdapter.ViewHolder, position: Int) {
-        holder.onbind(memoList[position])
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(holder){
+            is ViewHolder ->{
+                holder.onBind(memoList[position])
+            }
+            is EmptyHolder -> {}
+        }
+
 
     }
 
     override fun getItemCount(): Int {
-        return memoList.size
+        return if(memoList.size==0) 1 else memoList.size
     }
 
     fun update(newList : MutableList<MemoDTO>){

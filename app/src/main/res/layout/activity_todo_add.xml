@@ -55,11 +55,34 @@
 
     </EditText>
 
+    <LinearLayout
+        android:id="@+id/random_ly"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/content_et">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/random_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="15dp"
+            android:background="@color/skyBlueComplementaryRedColor"
+            android:padding="10dp"
+            android:text="랜덤으로 할일 추가"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/set_date_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="15dp"
         android:background="@color/skyBlue"
         android:text="날짜 입력"
         android:textColor="@color/white"
@@ -67,7 +90,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/content_et">
+        app:layout_constraintTop_toBottomOf="@+id/random_ly">
 
     </androidx.appcompat.widget.AppCompatButton>
 

@@ -55,11 +55,9 @@ class InDoneTodoRVAdapter(val context : Context, val date : String) : RecyclerVi
                     completeIv.visibility = View.GONE
                     incompleteIv.visibility = View.VISIBLE
                 }
-                itemView.setOnClickListener {
-                    itemClickListener.onClick(it,layoutPosition,doneTodoList[layoutPosition].id)
-                }
+
                 deleteBtn.setOnClickListener {
-                    itemDeleteBtnClickListener.onClick(it,layoutPosition,doneTodoList[layoutPosition].id)
+                    itemDeleteBtnClickListener.onDeleteClick(it,layoutPosition,doneTodoList[layoutPosition].id)
                 }
             }
 
@@ -70,13 +68,15 @@ class InDoneTodoRVAdapter(val context : Context, val date : String) : RecyclerVi
         return doneTodoList.size
 
     }
-    private lateinit var itemClickListener: TodoRVAdapter.ItemClickListener
-    private lateinit var itemDeleteBtnClickListener: TodoRVAdapter.ItemDeleteBtnClickListener
 
-    fun setItemClickListener(itemClickListener: TodoRVAdapter.ItemClickListener){
-        this.itemClickListener = itemClickListener
+    interface ItemDeleteBtnClickListener{
+        fun onDeleteClick(view: View, position: Int, itemId: Long)
     }
-    fun setItemDeleteBtnClickListener(itemDeleteBtnClickListener: TodoRVAdapter.ItemDeleteBtnClickListener){
+
+    private lateinit var itemDeleteBtnClickListener: ItemDeleteBtnClickListener
+
+
+    fun setItemDeleteBtnClickListener(itemDeleteBtnClickListener: ItemDeleteBtnClickListener){
         this.itemDeleteBtnClickListener = itemDeleteBtnClickListener
     }
     fun update(newList : MutableList<TodoDTO>){
