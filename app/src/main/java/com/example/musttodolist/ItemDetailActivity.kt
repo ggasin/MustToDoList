@@ -9,11 +9,13 @@ import android.util.Log
 import android.widget.Toast
 import com.example.musttodolist.databinding.ActivityItemDetailBinding
 import com.example.musttodolist.dto.TodoDTO
+import com.example.musttodolist.singleton.randomListSingleton
 import java.util.Calendar
 
 class ItemDetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItemDetailBinding
     private var todo: TodoDTO? = null
+    var beforeRandomIndex = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityItemDetailBinding.inflate(layoutInflater)
@@ -60,6 +62,11 @@ class ItemDetailActivity : AppCompatActivity() {
         }
         binding.detailBackBtn.setOnClickListener {
             finish()
+        }
+        binding.randomBtn.setOnClickListener {
+            val index = randomListSingleton.getRandomListIndex(beforeRandomIndex)
+            beforeRandomIndex = index //중복 방지를 위해
+            binding.contentEt.setText(randomListSingleton.randomList.get(index))
         }
     }
 }

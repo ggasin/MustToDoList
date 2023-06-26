@@ -42,10 +42,10 @@ import java.util.Calendar
 /* 남은 할일
 * 1. 지난 할일 목록 보여주기 - 완. Recyclerview 안에 header 넣기. 아이템 클릭 이벤트는 없고, 삭제만 구현하기. - 완.
 * 2. 랜덤으로 일정 추가하기 - 완. ( 근데 랜덤 할일 개수가 너무 부족)
-* 3. 일정 레벨일 시 별명
+* 3. 일정 레벨일 시 별명 -완
 * 4. 토글버튼 색, 바텀 네비게이션 색 - 완
 * 5. 레벨업 게이지 커스텀 -완
-* 6. 알림 구현
+* 6. 알림 구현 - 현재 activity_todo_add 에만 알림 체크 기능 추가해둠. todoDTO에 alarm on/off, alarm time, alarm requestCode 컬럼도 추가해야할듯.
 * 7. 캘린더의 아이템 삭제 - 완
 * 8. 비어있는 recyclerview면 "-이 비어있습니다" 이런식으로 화면 띄우기. -완
 * */
@@ -102,8 +102,14 @@ class HomeFragment : Fragment(){
 
         //레벨 정보를 저장하는 viewModel 관찰
         levelViewModel.levelList.observe(viewLifecycleOwner){
-            if(it == null) Log.d("HomeFragmentLevelList","null") else updateLevelInfo(it)
+            if(it == null) {
+                Log.d("HomeFragmentLevelList","null")
+            } else {
+                updateLevelInfo(it)
+                setNickName(it)
+            }
         }
+
 
 
 
@@ -257,7 +263,7 @@ class HomeFragment : Fragment(){
     //레벨업 구현
     private fun updateDBlevelUp(currentLevel : Int, upGaugeSize : Int, currentGauge : Int, max : Int) {
         if (currentGauge+upGaugeSize >= max) {
-            val levelDTO = LevelDTO(0,currentLevel+1,upGaugeSize,0,max+20)
+            val levelDTO = LevelDTO(0,currentLevel+1,upGaugeSize,0,max+50)
             levelViewModel.levelUpdate(levelDTO)
         } else {
             val levelDTO = LevelDTO(0,currentLevel,upGaugeSize,currentGauge+upGaugeSize,max)
@@ -267,7 +273,7 @@ class HomeFragment : Fragment(){
     //레벨다운 구현
     private fun updateDBlevelDown(currentLevel : Int, downGaugeSize : Int, currentGauge : Int, max : Int) {
         if (currentGauge-downGaugeSize < 0) {
-            val levelDTO = LevelDTO(0,currentLevel-1,downGaugeSize,max-20+currentGauge-downGaugeSize,max-20)
+            val levelDTO = LevelDTO(0,currentLevel-1,downGaugeSize,max-50+currentGauge-downGaugeSize,max-50)
             levelViewModel.levelUpdate(levelDTO)
         } else {
             val levelDTO = LevelDTO(0,currentLevel,downGaugeSize,currentGauge-downGaugeSize,max)
@@ -280,5 +286,19 @@ class HomeFragment : Fragment(){
         binding.progressBar.progress = dto.currentGauge
         binding.progressBar.max = dto.max
     }
+    private fun setNickName(dto : LevelDTO){
+        if(dto.level<=3){
+            binding.nickName.text = "잉여"
+        } else if(dto.level<=6){
+            binding.nickName.text = "홈프로텍터"
+        } else if(dto.level<=9){
+            binding.nickName.text = "인싸"
+        } else if(dto.level<=12){
+            binding.nickName.text = "탐험가"
+        } else if(dto.level<=15){
+            binding.nickName.text = "핵인싸"
+        }
+    }
+
 
 }

@@ -1,12 +1,14 @@
 package com.example.musttodolist
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.example.musttodolist.databinding.ActivityTodoAddBinding
 import com.example.musttodolist.dto.TodoDTO
+import com.example.musttodolist.singleton.randomListSingleton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -14,17 +16,7 @@ class TodoAddActivity : AppCompatActivity() {
     private lateinit var binding:ActivityTodoAddBinding
     private var todoDTO:TodoDTO? = null
     var beforeRandomIndex = -1
-    var randomList : List<String> = listOf(
-            "산책 30분 이상하기","런닝 3km 이상하기",
-            "영화관에서 영화 1편 보기",
-            "야외 카페 방문하기",
-            "카페에서 책 2시간 이상 읽기" ,
-            "주변을 산책하며 풍경 사진 1장 이상 찍기" ,
-            "장보기" ,
-            "공부중인 혹은 공부 하고싶던 내용 2시간 이상 공부 하기" ,
-            "헬스장 혹은 근처 공원에서 운동 1시간 이상 하기." ,
-            "자전거 타고 10km 이내 목적지 정해서 가기." ,
-            "박물관 혹은 미술관, 전시회 방문하기")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTodoAddBinding.inflate(layoutInflater)
@@ -68,9 +60,32 @@ class TodoAddActivity : AppCompatActivity() {
             finish()
         }
         binding.randomBtn.setOnClickListener {
-            val randomIndex = (0 until randomList.size).filter { it != beforeRandomIndex }.random()
-            beforeRandomIndex = randomIndex
-            binding.contentEt.setText(randomList.get(randomIndex))
+            val index = randomListSingleton.getRandomListIndex(beforeRandomIndex)
+            beforeRandomIndex = index //중복 방지를 위해
+            binding.contentEt.setText(randomListSingleton.randomList.get(index))
         }
+        binding.pushAlarmChkBox.setOnCheckedChangeListener { compoundButton, isChecked ->
+            if(isChecked){
+                showTimePickerDialog()
+            } else {
+                binding.pushAlarmTimeTv.text = "알림 시간"
+            }
+        }
+    }
+    private fun showTimePickerDialog() {
+        val currentTime = java.util.Calendar.getInstance()
+        val hour = currentTime.get(java.util.Calendar.HOUR_OF_DAY)
+        val minute = currentTime.get(java.util.Calendar.MINUTE)
+
+        val timePickerDialog = TimePickerDialog(this,
+            android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+            TimePickerDialog.OnTimeSetListener
+            { _, selectedHour, selectedMinute ->
+            val selectedTime = String.format("%02d:%02d", selectedHour, selectedMinute)
+            binding.pushAlarmTimeTv.text = selectedTime
+        }, hour, minute, true)
+        timePickerDialog.setTitle("푸시 알림 시간")
+        timePickerDialog.getWindow()?.setBackgroundDrawableResource(android.R.color.transparent)
+        timePickerDialog.show()
     }
 }
