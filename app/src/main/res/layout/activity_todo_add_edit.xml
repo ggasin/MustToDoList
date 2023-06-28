@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TodoAddActivity"
+    tools:context=".TodoAddEditActivity"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -31,7 +31,7 @@
                 app:srcCompat="@drawable/round_arrow_back_24" />
 
             <TextView
-                android:id="@+id/memo_edit_top_title_tv"
+                android:id="@+id/todo__add_edit_top_title_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
@@ -96,7 +96,7 @@
     </androidx.appcompat.widget.AppCompatButton>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_btn"
+        android:id="@+id/save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
@@ -124,15 +124,18 @@
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="15dp"
-            android:text="알림 설정" />
+            android:text="알림 설정"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/push_alarm_time_tv"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
+            android:gravity="center"
             android:text="알림 시간"
-            android:textSize="18dp" />
+            android:textColor="@color/darker_gray"
+            android:textSize="15dp" />
     </LinearLayout>
 
 

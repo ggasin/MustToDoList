@@ -59,6 +59,9 @@ class InDoneTodoRVAdapter(val context : Context, val date : String) : RecyclerVi
                 deleteBtn.setOnClickListener {
                     itemDeleteBtnClickListener.onDeleteClick(it,layoutPosition,doneTodoList[layoutPosition].id)
                 }
+                itemView.setOnClickListener {
+                    itemClickListener.onClick(it,layoutPosition,doneTodoList[layoutPosition].id)
+                }
             }
 
         }
@@ -72,13 +75,21 @@ class InDoneTodoRVAdapter(val context : Context, val date : String) : RecyclerVi
     interface ItemDeleteBtnClickListener{
         fun onDeleteClick(view: View, position: Int, itemId: Long)
     }
+    interface ItemClickListener{
+        fun onClick(view: View, position: Int, itemId: Long)
+    }
+
 
     private lateinit var itemDeleteBtnClickListener: ItemDeleteBtnClickListener
-
+    private lateinit var itemClickListener: ItemClickListener
 
     fun setItemDeleteBtnClickListener(itemDeleteBtnClickListener: ItemDeleteBtnClickListener){
         this.itemDeleteBtnClickListener = itemDeleteBtnClickListener
     }
+    fun setItemClickListener(itemClickListener : ItemClickListener){
+        this.itemClickListener = itemClickListener
+    }
+
     fun update(newList : MutableList<TodoDTO>){
         this.doneTodoList = newList
         for(i in doneTodoList){

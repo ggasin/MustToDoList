@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.musttodolist.ItemDetailActivity
+import com.example.musttodolist.TodoAddEditActivity
 import com.example.musttodolist.adapter.CalendarRVAdapter
 import com.example.musttodolist.adapter.TodoRVAdapter
 import com.example.musttodolist.databinding.FragmentCalendarBinding
@@ -77,7 +77,7 @@ class CalendarFragment : Fragment() {
                     Log.d("itemClick","true")
                     val todo = todoViewModel.getOneTodo(itemId)
 
-                    val intent = Intent(requireContext(), ItemDetailActivity::class.java).apply {
+                    val intent = Intent(requireContext(), TodoAddEditActivity::class.java).apply {
                         putExtra("type","EDIT")
                         putExtra("item",todo)
                     }
@@ -105,6 +105,7 @@ class CalendarFragment : Fragment() {
                                 withContext(Dispatchers.IO) {
                                     todoViewModel.todoDelete(deleteItem)
                                 }
+                                Toast.makeText(requireContext(), "삭제가 완료되었습니다.", Toast.LENGTH_SHORT).show()
 
 
                             }

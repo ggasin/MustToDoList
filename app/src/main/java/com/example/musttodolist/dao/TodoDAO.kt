@@ -18,6 +18,10 @@ interface TodoDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun todoInsert(dto: TodoDTO)
 
+    @Query("SELECT * FROM todoTable ORDER BY id DESC LIMIT 1")
+    fun getLatestTodo():TodoDTO?
+
+
 
     @Query("select * from todoTable")
     fun allOfTodoList(): LiveData<MutableList<TodoDTO>>

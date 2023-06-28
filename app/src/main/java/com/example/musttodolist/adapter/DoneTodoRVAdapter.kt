@@ -102,6 +102,12 @@ class DoneTodoRVAdapter(val context : Context) : RecyclerView.Adapter<RecyclerVi
                     itemDeleteBtnClickListener.onDeleteClick(view,position,itemId)
                 }
             })
+            inDoneTodoRVAdapter.setItemClickListener(object : InDoneTodoRVAdapter.ItemClickListener{
+                override fun onClick(view: View, position: Int, itemId: Long) {
+                    itemClickListener.onClick(view,position,itemId)
+                }
+
+            })
 
         }
 
@@ -150,12 +156,19 @@ class DoneTodoRVAdapter(val context : Context) : RecyclerView.Adapter<RecyclerVi
     interface ItemDeleteBtnClickListener{
         fun onDeleteClick(view: View, position: Int, itemId: Long)
     }
+    interface ItemClickListener{
+        fun onClick(view: View, position: Int, itemId: Long)
+    }
+
 
     private lateinit var itemDeleteBtnClickListener: ItemDeleteBtnClickListener
-
+    private lateinit var itemClickListener: ItemClickListener
 
     fun setItemDeleteBtnClickListener(itemDeleteBtnClickListener: ItemDeleteBtnClickListener){
         this.itemDeleteBtnClickListener = itemDeleteBtnClickListener
+    }
+    fun setItemClickListener(itemClickListener : ItemClickListener){
+        this.itemClickListener = itemClickListener
     }
 
 

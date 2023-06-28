@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--POST_NOTIFICATIONS push alarm 기능 권한 요청을 위해 추가-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!--SCHEDULE_EXACT_ALARM push alarm 기능을 위해 추가-->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <application
         android:name=".config.ApplicationClass"
         android:allowBackup="true"
@@ -22,12 +26,7 @@
             android:label="@string/title_activity_memo_edit"
             android:theme="@style/Theme.MustToDoList" />
         <activity
-            android:name=".ItemDetailActivity"
-            android:exported="false"
-            android:label="@string/title_activity_item_detail"
-            android:theme="@style/Theme.MustToDoList" />
-        <activity
-            android:name=".TodoAddActivity"
+            android:name=".TodoAddEditActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -38,6 +37,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver
+            android:name="com.example.musttodolist.receiver.NotificationReceiver"
+            android:directBootAware="true"
+            android:enabled="true"
+            android:exported="true">
+
+        </receiver>
     </application>
 
 </manifest>

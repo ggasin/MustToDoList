@@ -30,6 +30,7 @@ class TodoRepository private  constructor(context: Context){
 
 
     fun getOneTodo(id:Long):TodoDTO = todoDAO.todoSelectOne(id)
+    fun getLatestTodo():TodoDTO? = todoDAO.getLatestTodo()
     fun todoInsert(dto:TodoDTO) = todoDAO.todoInsert(dto)
     suspend fun todoUpdate(dto: TodoDTO) = todoDAO.todoUpdate(dto)
     fun todoDelete(dto: TodoDTO) = todoDAO.todoDelete(dto)

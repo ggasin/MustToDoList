@@ -11,7 +11,9 @@ class TodoDTO (
     @ColumnInfo(name = "id") @PrimaryKey(autoGenerate = true) var id : Long = 0,
     @ColumnInfo(name = "content") var content : String,
     @ColumnInfo(name = "time") var time : String,
-    @ColumnInfo(name = "complete") var complete : Boolean
+    @ColumnInfo(name = "complete") var complete : Boolean,
+    @ColumnInfo(name = "isAlarmOn") var isAlarmOn : Boolean,
+    @ColumnInfo(name = "alarmTime") var alarmTime : String
 
 ) : Serializable{
     //직렬화

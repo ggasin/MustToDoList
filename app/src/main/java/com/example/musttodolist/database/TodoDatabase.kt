@@ -10,7 +10,7 @@ import com.example.musttodolist.dto.MemoDTO
 import com.example.musttodolist.dto.TodoDTO
 
 
-@Database(entities = arrayOf(TodoDTO::class,LevelDTO::class, MemoDTO::class), version = 2)
+@Database(entities = arrayOf(TodoDTO::class,LevelDTO::class, MemoDTO::class), version = 5)
 abstract class TodoDatabase : RoomDatabase(){
     abstract fun todoDao() : TodoDAO
     abstract fun levelDao() : LevelDAO

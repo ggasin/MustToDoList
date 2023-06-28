@@ -34,6 +34,7 @@ class TodoViewModel:ViewModel() {
 
     fun allOfTodoList() = todoRepository.allOfTodoList()
     fun getOneTodo(id:Long) = todoRepository.getOneTodo(id)
+    fun getLatestTodo() = todoRepository.getLatestTodo()
 
     fun todoInsert(dto: TodoDTO) = viewModelScope.launch(Dispatchers.IO){
         todoRepository.todoInsert(dto)
