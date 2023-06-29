@@ -5,6 +5,7 @@ import android.content.res.ColorStateList
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import com.example.musttodolist.adapter.MainViewPageAdapter
@@ -18,11 +19,24 @@ class MainActivity : AppCompatActivity() {
     private val tabTitleArray = arrayOf(
         "캘린더", "홈", "메모장"
     )
+    //하단 탭 아이콘 array
     private val tabIconArray = arrayOf(
         R.drawable.calendar_icon_black,
         R.drawable.home_icon_black,
         R.drawable.memo_icon_black
     )
+    // 뒤로가기 버튼 누른 시간
+    var backPressedTime : Long = 0
+    // 뒤로가기 두번 종료
+    override fun onBackPressed() {
+        if(backPressedTime + 3000 > System.currentTimeMillis()){
+            super.onBackPressed()
+            finish()
+        } else {
+            Toast.makeText(applicationContext,"뒤로가기 두번을 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+        }
+        backPressedTime = System.currentTimeMillis()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
